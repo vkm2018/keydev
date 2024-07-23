@@ -12,23 +12,14 @@ from apps.posts.permissions import CustomIsAdmin
 from apps.posts.serializers import PostSerializer, RatingSerializer, CommentSerializer
 
 
-class PostView(APIView):
+class PostView(ModelViewSet):
+    queryset = Post.objects.all()
     permission_classes = [CustomIsAdmin]
-    def get(self, request):
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data, status=200)
+    serializer_class = PostSerializer
 
-    def post(self, request):
 
-        data = request.data
-        serializer = PostSerializer(data=data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            message = 'Пост создан.'
 
-            return Response(message, status=200)
 
 
 class CommentView(ModelViewSet):
