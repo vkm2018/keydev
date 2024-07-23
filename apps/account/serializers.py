@@ -10,7 +10,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class AccountSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
