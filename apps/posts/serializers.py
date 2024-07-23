@@ -6,11 +6,10 @@ from apps.posts.models import Post, Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Comment
         fields = '__all__'
-
+        read_only_fields = ['owner']
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
