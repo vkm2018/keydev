@@ -6,7 +6,7 @@ from apps.posts.views import PostView, CommentView
 
 router = DefaultRouter()
 router.register('', PostView)
-router.register(r'comments', CommentView)
+router.register(r'mark_add', CommentView)
 
 
 urlpatterns=[

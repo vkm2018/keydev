@@ -17,22 +17,17 @@ class PostView(ModelViewSet):
     permission_classes = [CustomIsAdmin]
     serializer_class = PostSerializer
 
-
-
-
+    @action(methods=['POST'], detail=True)
+    def rating(self, request, pk, *args, **kwargs):
+        rating_obj, _ = Rating.objects.get_or_create(owner=request.user, post_id=pk)
+        serializer = RatingSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        rating_obj.rating = request.data['rating']
+        rating_obj.save()
+        return Response(request.data, status=201)
 
 
 class CommentView(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
-    def get_permissions(self):
-        if self.action in ['update', 'partial_update', 'destroy']:
-            permission_classes = [IsAdminUser]
-        else:
-            permission_classes = [permissions.AllowAny]
-
-        return [permission() for permission in permission_classes]
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
